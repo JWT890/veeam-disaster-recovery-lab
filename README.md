@@ -375,9 +375,8 @@ sudo veeamconfig session list | grep Running
 ![U](./images/u.png)    
 
 Then for the final test is full VM restore  
-Go to the second computer with Windows Server Veeam and open up Veeam and go to Home -> Backup -> Disk like so: 
-![H](./images/h.png)    
-Then right click on the VM option like so:  
-![Option](./images/option.png)  
-Hovering over it presents several options and select Proxmox in which this will pop up: 
-![Y](./images/y.png)    
+Go to the second computer with Windows Server Veeam and open up Veeam and go to Home -> Jobs -> Backup and click on the Backup Job dropdown and click on Virtual Machine:   
+![T](./images/t.png)    
+After clicking on Virtual Machine:  
+![l](./images/l.png)    
+Rename it to Proxmox-TestVM-HypervisorBackup then click next to the virtual machine option and click add and add 10.0.0.22 and confirm it before hitting next.  
