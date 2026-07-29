@@ -380,3 +380,58 @@ Go to the second computer with Windows Server Veeam and open up Veeam and go to 
 After clicking on Virtual Machine:  
 ![l](./images/l.png)    
 Rename it to Proxmox-TestVM-HypervisorBackup then click next to the virtual machine option and click add and add 10.0.0.22 and confirm it before hitting next.  
+For the credentials make sure to have it as root from the pve console in Proxmox and make sure to remove the 10.0.0.22 and add it again to get rid of stale UUID and create a new Veeam-Worker. 
+Then on the Proxmox pve command line, install apt-get install -y inotify-tools which will fire on a instant then run this:  
+pkill -f kvm-watcher    
+nohup bash -c ' 
+inotifywait -m /etc/pve/qemu-server/ -e create -e modify |  
+while read dir event file; do   
+    conf="/etc/pve/qemu-server/$file"   
+    sleep 0.1   
+    grep -q "^kvm:" "$conf" 2>/dev/null || sed -i "1s/^/kvm: 0\n/" "$conf"  
+    echo "Patched $conf at $(date)" 
+done    
+' > /tmp/kvm-watcher.log 2>&1 & 
+Then type sleep 2   
+cat /tmp/kvm-watcher.log    
+ps aux | grep inotify and tail -f /tmp/kvm-watcher.log  
+This however will cause the script to write temp files and rename it to 101.conf to edit it like this:  
+nohup bash -c ' 
+inotifywait -m /etc/pve/qemu-server/ -e create -e modify -e moved_to |  
+while read dir event file; do   
+    conf="/etc/pve/qemu-server/$file"   
+    [ -f "$conf" ] || continue  
+    grep -q "^kvm:" "$conf" 2>/dev/null || sed -i "1s/^/kvm: 0\n/" "$conf"  
+    echo "Patched $conf ($event) at $(date)"    
+done    
+' > /tmp/kvm-watcher.log 2>&1 & 
+Then sleep 2 and cat /tmp/kvm-watcher.log.  
+Then run pkill -f inotifywait   
+nohup bash -c 'inotifywait -m /etc/pve/qemu-server/ -e create -e modify -e moved_to | while read dir event file; do conf="/etc/pve/qemu-server/$file"; [ -f "$conf" ] || continue; grep -q "^kvm:" "$conf" 2>/dev/null || sed -i "1s/^/kvm: 0\n/" "$conf"; echo "Patched $conf ($event) at $(date)"; done' > /tmp/kvm-watcher.log 2>&1 &    
+sleep 2 
+cat /tmp/kvm-watcher.log    
+Then run the Veeam worker and likely run into only tmp files once again
+![4](./images/4.webp)   
+Then try the Proxmox hookscript approach which will help intercept these events with this script:   
+cat > /var/lib/vz/snippets/disable-kvm.sh << 'EOF'  
+#!/bin/bash 
+VMID=$1 
+PHASE=$2    
+if [ "$PHASE" = "pre-start" ]; then 
+    qm set $VMID --kvm 0    
+    echo "KVM disabled for VM $VMID" >> /tmp/hookscript.log 
+fi  
+EOF 
+Then chmod +x /var/lib/vz/snippets/disable-kvm.sh.  
+Based on this:  
+![D1](./images/d1.webp) 
+The error says the VM was destroyed so run this script so that inotify catches and runs:    
+pkill -f inotifywait
+nohup bash -c 'inotifywait -m /etc/pve/qemu-server/ -e moved_to --format "%f" | while read file; do 
+    VMID="${file%.conf}"    
+    echo "Caught $file at $(date)" >> /tmp/kvm-watcher.log  
+    qm set $VMID --kvm 0 >> /tmp/kvm-watcher.log 2>&    
+    echo "Set kvm=0 on VM $VMID" >> /tmp/kvm-watcher.log    
+done' > /tmp/kvm-watcher-err.log 2>&1 & 
+Then sleep 2 and cat /tmp/kvm-watcher.log
+*Look below the images section to find the resolution for this*
