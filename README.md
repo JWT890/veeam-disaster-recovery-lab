@@ -433,5 +433,46 @@ nohup bash -c 'inotifywait -m /etc/pve/qemu-server/ -e moved_to --format "%f" | 
     qm set $VMID --kvm 0 >> /tmp/kvm-watcher.log 2>&    
     echo "Set kvm=0 on VM $VMID" >> /tmp/kvm-watcher.log    
 done' > /tmp/kvm-watcher-err.log 2>&1 & 
-Then sleep 2 and cat /tmp/kvm-watcher.log
+Then sleep 2 and cat /tmp/kvm-watcher.log and see this: 
+![D2](./images/d2.webp) 
+Which shows that inotifywait is failing immediately so this script: 
+cat > /tmp/kvm-fix.sh << 'EOF'  
+#!/bin/bash 
+inotifywait -m /etc/pve/qemu-server/ -e moved_to --format "%f" | while read file; do    
+    VMID="${file%.conf}"    
+    echo "Caught $file at $(date)" >> /tmp/kvm-watcher.log  
+    qm set $VMID --kvm 0 >> /tmp/kvm-watcher.log 2>&1   
+    echo "Set kvm=0 on VM $VMID" >> /tmp/kvm-watcher.log    
+done    
+EOF 
+Then chmod +x /tmp/kvm-fix.sh, nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 & then sleep 2 cat /tmp/kvm-watcher-err.log and cat /tmp/kvm-watcher.log. 
+However this might say: 
+![D3](./images/d3.webp) 
+So write with tee instead:  
+tee /tmp/kvm-fix.sh << 'SCRIPT' 
+#!/bin/bash 
+inotifywait -m /etc/pve/qemu-server/ -e moved_to --format "%f" | while read file; do    
+    VMID="${file%.conf}"    
+    echo "Caught $file" >> /tmp/kvm-watcher.log 
+    qm set $VMID --kvm 0 >> /tmp/kvm-watcher.log 2>&1   
+    echo "Set kvm=0 on VM $VMID" >> /tmp/kvm-watcher.log    
+done    
+SCRIPT  
+chmod +x /tmp/kvm-fix.sh and cat /tmp/kvm-fix.sh.   
+Then run nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 &, sleep 2, then cat /tmp/kvm-watcher-err.log which should show watches established. Then run the worker once again and see this:   
+![D4](./images/d4.webp) 
+This means kvm: 0 is now working but the script is configuring with host instead and update the script to be:   
+tee /tmp/kvm-fix.sh << 'SCRIPT' 
+#!/bin/bash 
+inotifywait -m /etc/pve/qemu-server/ -e moved_to --format "%f" | while read file; do    
+    VMID="${file%.conf}"    
+    echo "Caught $file" >> /tmp/kvm-watcher.log 
+    qm set $VMID --kvm 0 --cpu x86-64-v2-AES >> /tmp/kvm-watcher.log 2>&1   
+    echo "Set kvm=0 and cpu on VM $VMID" >> /tmp/kvm-watcher.log    
+done    
+SCRIPT  
+pkill -f kvm-fix.sh and nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 &    
+Then run the Worker again and see this: 
+![D5](./images/d5.webp) 
+Which shows it is running
 *Look below the images section to find the resolution for this*
