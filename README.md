@@ -482,4 +482,12 @@ Then go and restart Veeam Backup Services in services.msc and after that go find
 Right click on it and mount it and when done click on Plugins to see this:  
 ![Plugin](./images/plugin.webp) 
 Then install them in this order: VeeamPluginPVE, VeeamPluginPVEUI, and then VeeamPluginPVEAppliance. When done restart Veeam Backup Service and or restart the VM and it should be back up after getting things back up again.  
+Then go and set up a new Backup Job since the prior was deleted named Proxmox-HypervisorBackup and then click next and expand 10.0.0.22 to see this:    
+![J](./images/j.png)    
+Click on TestLab option and click add and hit next to get to storage.   
+![J1](./images/j1.png)  
+Have the LinuxMint repo selected and hit next till apply and finish. There is the option to do automatic but not right now. 
+Then after apply and finish should see it here: 
+![J2](./images/j2.png)  
+Then right click it and hit start and then see the running status and watch the Proxmox one
 *Look below the images section to find the resolution for this*
