@@ -474,5 +474,12 @@ SCRIPT
 pkill -f kvm-fix.sh and nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 &    
 Then run the Worker again and see this: 
 ![D5](./images/d5.webp) 
-Which shows it is running
+Which shows it is running. However when it gets done it will destroy 102 and make the Veeam Worker disappear.   
+To get it to come back type Win+R and type appwiz.cpl and look for Veeam Plug-In for Proxmox Virtual Environment and uninstall it   
+![A](./images/a.webp)   
+Then go and restart Veeam Backup Services in services.msc and after that go find the iso for Veeam and mount it in the VM   
+![ISO](./images/iso.png)    
+Right click on it and mount it and when done click on Plugins to see this:  
+![Plugin](./images/plugin.webp) 
+Then install them in this order: VeeamPluginPVE, VeeamPluginPVEUI, and then VeeamPluginPVEAppliance. When done restart Veeam Backup Service and or restart the VM and it should be back up after getting things back up again.  
 *Look below the images section to find the resolution for this*
