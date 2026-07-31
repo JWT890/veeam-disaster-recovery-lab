@@ -489,5 +489,13 @@ Click on TestLab option and click add and hit next to get to storage.
 Have the LinuxMint repo selected and hit next till apply and finish. There is the option to do automatic but not right now. 
 Then after apply and finish should see it here: 
 ![J2](./images/j2.png)  
-Then right click it and hit start and then see the running status and watch the Proxmox one
+Then right click it and hit start and then see the running status and watch the Proxmox console 
+After a few minutes this will pop up:   
+![J3](./images/j3.webp) 
+Meaning the KVM error is occuring so run this script so it can catch better:    
+![Script](./images/script.png)  
+Then run nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 &   
+sleep 2 
+cat /tmp/kvm-watcher-err.log and then go run the job again. 
+However after doing testing and research it seems that 
 *Look below the images section to find the resolution for this*
