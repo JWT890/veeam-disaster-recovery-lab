@@ -515,4 +515,4 @@ And in the Windows Server VM:
 
 # Monitoring & Alerting
 Having a good monitor and alert system is key in knowing if something has occured   
-In the Linux VM
+On the host computer, go to myaccount.google.com/apppasswords and create a app password for Veeam
