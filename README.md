@@ -497,5 +497,17 @@ Meaning the KVM error is occuring so run this script so it can catch better:
 Then run nohup bash /tmp/kvm-fix.sh > /tmp/kvm-watcher-err.log 2>&1 &   
 sleep 2 
 cat /tmp/kvm-watcher-err.log and then go run the job again. 
-However after doing testing and research it seems that 
-*Look below the images section to find the resolution for this*
+However after doing testing and research it seems that in order for hypervisor to work that a bare metal host or a laptop to where certain settings such as Virtualization Based Security can be turned off. The veeam-issue.md file explains more. 
+
+# Automatic Scheduling
+Setting up automatic/automated scheduled backups help with automating certain repeat tasks  
+Start by going to the Test VM and in the command line type sudo veeamconfig schedule set --jobName "TestVM-Backup" --daily --at "18:45"    
+*This can be any time*  
+![Backup3](./images/backup3.png)    
+Then verify by running sudo veeamconfig schedule show --jobName "TestVM-Backup" like so:    
+![Backup4](./images/backup4.png)    
+For the purposes of this I set it at 7:10 PM CST or in the Linux VM to 00:10 PM based off UTC which should trigger in VM and in Veeam:  
+![List](./images/list.png)  
+Then after about 10 minutes it is done for the auto schedule:   
+![List1](./images/list1.png)    
+And in the Windows Server VM:   
