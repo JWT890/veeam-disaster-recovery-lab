@@ -511,3 +511,8 @@ For the purposes of this I set it at 7:10 PM CST or in the Linux VM to 00:10 PM 
 Then after about 10 minutes it is done for the auto schedule:   
 ![List1](./images/list1.png)    
 And in the Windows Server VM:   
+![List2](./images/list2.png)    
+
+# Monitoring & Alerting
+Having a good monitor and alert system is key in knowing if something has occured   
+In the Linux VM
