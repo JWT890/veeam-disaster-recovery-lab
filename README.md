@@ -515,4 +515,11 @@ And in the Windows Server VM:
 
 # Monitoring & Alerting
 Having a good monitor and alert system is key in knowing if something has occured   
-On the host computer, go to myaccount.google.com/apppasswords and create a app password for Veeam
+On the host computer, go to myaccount.google.com/apppasswords and create a app password for Veeam called VeeamLab and then download the notify.sh script and replace SMTP_USER, MAIL_FROM, and MAIL_TO with your emails and SMTP_PASS with your Gmail app password. 
+Then after editing it type sudo cp notify.sh /opt/veeam/notify.sh and then sudo chmod +x /opt/veeam/notify.sh to make it executable and run.    
+Run it by typing sudo /opt/veeam/notify.sh and if any errors pop up just do the sudo tee method or this base63 method:   
+Then sudo chmod +x /opt/veeam/notify.sh and bash -n /opt/veeam/notify.sh && echo "SYNTAX OK" to verify it says syntax OK.   
+To verify correct output with base64 run cat -A /opt/veeam/notify.sh | sed -n '1,20p'   
+![SH](./images/sh.png)  
+Then run sudo /opt/veeam/notify.sh once again:  
+![SH1](./images/sh1.png)    
