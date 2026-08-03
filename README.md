@@ -548,4 +548,20 @@ And replace with the actual app password to see this:
 ![SH5](./images/sh5.png)    
 ![SH6](./images/sh6.png)    
 ![SH7](./images/sh7.png)    
-From looking over this it appears the issue is with curl so edit the file where it says curl --ssl-reqd \ to curl -4 --sl-reqd \ and save it and run sudo /opt/veeam/notify.sh once again
+From looking over this it appears the issue is with curl so edit the file where it says curl --ssl-reqd \ to curl -4 --sl-reqd \ and save it and run sudo /opt/veeam/notify.sh once again and should see this:  
+![SH8](./images/sh8.webp)   
+It errored again so run bash -x /opt/veeam/notify.sh which will show where its erroring:    
+![SH9](./images/sh9.webp)   
+Which shows that a line got overwritten for SMTP_HOST in which it should be smtp.gmail.com so fix it by running:    
+sudo sed -i 's/SMTP_HOST=.*/SMTP_HOST="smtp.gmail.com"/' /opt/veeam/notify.sh   
+And verify by running:  
+sudo grep -E "^JOB_NAME=|^SMTP_HOST=|^SMTP_PORT=|^SMTP_USER=|^MAIL_FROM=|^MAIL_TO=" /opt/veeam/notify.sh to see this:   
+![SH10](./images/sh10.png)  
+Then run sudo /opt/veeam/notify.sh in which it should trigger like so:  
+![Email](./images/email.png)    
+Emails are working now so should be implemented into the workflow by running:   
+sudo veeamconfig job edit volumeLevel --postjob "/opt/veeam/notify.sh" for --name "TestVM-Backup" which will add like so:   
+![Run4](./images/run4.png)  
+Then confirm by running sudo veeamconfig job start --name "TestVM-Backup" to confirm:   
+![Confirm](./images/confirm.png)    
+Then run sudo veeamconfig job start --name "TestVM-Backup"
