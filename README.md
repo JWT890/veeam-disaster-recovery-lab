@@ -523,3 +523,29 @@ To verify correct output with base64 run cat -A /opt/veeam/notify.sh | sed -n '1
 ![SH](./images/sh.png)  
 Then run sudo /opt/veeam/notify.sh once again:  
 ![SH1](./images/sh1.png)    
+The denied means that the SMTP_USER and FROM_FROM and other inputs need to be changed, so go and change it. Then verify with sudo grep -E "SMTP_USER|MAIL_FROM|MAIL_TO" /opt/veeam/notify.sh    
+Then run sudo /opt/veeam/notify.sh to see this: 
+![SH2](./images/sh2.webp)   
+This shows this might be a network connection issue run these commands: 
+![SH3](./images/sh3.webp)   
+Running these commands shows that PORT 587 is open along with 465 with success with DNS so this points to a IPv6 routing issue which would mean that IPv4 is broken but likely a false positive or a TLS handshake stalling with it accepting a connection but not completing so test by running:   
+curl -4 --ssl-reqd --url "smtp://smtp.gmail.com:587" --user "jontaylor8104@gmail.com:REPLACE_WITH_APP_PASSWORD" --mail-from     "jontaylor8104@gmail.com" --mail-rcpt "jutaylor659@gmail.com" --upload-file - --max-time 15 <<EOF   
+From: Test <jontaylor8104@gmail.com>    
+To: jutaylor659@gmail.com   
+Subject: IPv4 test  
+
+Testing IPv4 forced connection. 
+EOF 
+And replace with the actual app password to see this:   
+![SH4](./images/sh4.png)    
+Then run:   
+curl -v -4 --ssl-reqd --url "smtp://smtp.gmail.com:587" --user "jontaylor8104@gmail.com:REPLACE_WITH_APP_PASSWORD" --mail-from "jontaylor8104@gmail.com" --mail-rcpt "jutaylor659@gmail.com" --upload-file - --max-time 15 <<EOF    
+Subject: test   
+
+test    
+EOF 
+And replace with the actual app password to see this:   
+![SH5](./images/sh5.png)    
+![SH6](./images/sh6.png)    
+![SH7](./images/sh7.png)    
+From looking over this it appears the issue is with curl so edit the file where it says curl --ssl-reqd \ to curl -4 --sl-reqd \ and save it and run sudo /opt/veeam/notify.sh once again
