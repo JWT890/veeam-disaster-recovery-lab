@@ -592,3 +592,9 @@ Then run the sudo sed once again and then bash -n /opt/veeam/notify-worker.sh &&
 ![Success](./images/success.webp)   
 
 # Security
+When it comes to securing backups its important that users have the correct permissions in place so that important backups aren't destroyed which is where immutability comes in. It means that once a backup file is written, the repo refuses to modify/delete it until the period expires.   
+Start by running sudo veeamconfig repository list and then sudo veeamconfig repository info --name "Default Backup Repository": 
+![Line](./images/line.webp) 
+This shows that the connectivity of where the storage is on the VBR server. Since the Windows Server VM is 10.0.0.116 run the command sudo veeamconfig vbrServer --help along with sudo veeamconfig vbrServer list  
+![Line1](./images/line1.webp)   
+vbrServer list shows where the port is and where its authenticating as with the port as 100006. Then on the Linux computer
