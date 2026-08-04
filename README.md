@@ -599,4 +599,11 @@ This shows that the connectivity of where the storage is on the VBR server. Sinc
 ![Line1](./images/line1.webp)   
 vbrServer list shows where the port is and where its authenticating as with the port as 100006. Then on the Linux computer enable RDP in the Windows Server or just get into the Windows Server VM and view the Default Repository to see if there are some options available or run this powershell command with output:   
 ![Line2](./images/line2.webp)   
-Which shows that the C drive doesn't support immutability, so close out of the VM and add another hard disk of around 20-50 GB and start it back up again, then open disk management or diskmgmt.msc
+Which shows that the C drive doesn't support immutability, so close out of the VM and add another hard disk of around 20-50 GB and start it back up again, then open disk management or diskmgmt.msc    
+A pop up will appear and select GPT which will initialize, then right click in the Unallocated space and click on New Simple Volume:    
+![Simple](./images/simple.png)  
+Then click through till getting to the drive letter like E then click next and get here:    
+![Format](./images/format.png)  
+Make sure to have it as ReFS and not NTFS, click next then finish and see that it formatted:    
+![Format1](./images/format1.png)    
+Then go to Backup Infrastructure -> Backup Repos and click on add repo and choose Direct Attached Storage and if that doesn't work go to the Proxmox instance and create a another linux vm with a data disk of XFS and 1 CPI, 1-2 GB of RAM
