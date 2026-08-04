@@ -597,4 +597,6 @@ Start by running sudo veeamconfig repository list and then sudo veeamconfig repo
 ![Line](./images/line.webp) 
 This shows that the connectivity of where the storage is on the VBR server. Since the Windows Server VM is 10.0.0.116 run the command sudo veeamconfig vbrServer --help along with sudo veeamconfig vbrServer list  
 ![Line1](./images/line1.webp)   
-vbrServer list shows where the port is and where its authenticating as with the port as 100006. Then on the Linux computer
+vbrServer list shows where the port is and where its authenticating as with the port as 100006. Then on the Linux computer enable RDP in the Windows Server or just get into the Windows Server VM and view the Default Repository to see if there are some options available or run this powershell command with output:   
+![Line2](./images/line2.webp)   
+Which shows that the C drive doesn't support immutability, so close out of the VM and add another hard disk of around 20-50 GB and start it back up again, then open disk management or diskmgmt.msc
