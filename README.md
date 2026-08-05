@@ -623,3 +623,9 @@ echo "UUID=YOUR-UUID-HERE /mnt/veeam-repo xfs defaults 0 0" | sudo tee -a /etc/f
 Then run sudo umount /mnt/veeam-repo, then sudo mount -a, then df -Th /mnt/veeam-repo:  
 ![Disk5](./images/disk5.png)    
 Now with it mounted, make sure ssh is running by running sudo systemctl status ssh and then ip addr show | grep "inet " which will show its running and showing a healthy IP.   
+Then create a user by typing and running sudo adduser veeamrepo and create a password for it.   
+Then add veeamrepo to the sudo group by running: sudo usermod -aG sudo veeamrepo then confirm the shell is bash by running getent passwd veeamrepo: 
+![Per](./images/per.png)    
+Then confirm group memberships by running groups veeamrepo: 
+![Per](./images/per1.png)   
+Then go back to the VBR console in the Windows Server VM on the Linux computer. 
