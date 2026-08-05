@@ -606,4 +606,20 @@ Then click through till getting to the drive letter like E then click next and g
 ![Format](./images/format.png)  
 Make sure to have it as ReFS and not NTFS, click next then finish and see that it formatted:    
 ![Format1](./images/format1.png)    
-Then go to Backup Infrastructure -> Backup Repos and click on add repo and choose Direct Attached Storage and if that doesn't work go to the Proxmox instance and create a another linux vm with a data disk of XFS and 1 CPI, 1-2 GB of RAM
+Then go to Backup Infrastructure -> Backup Repos and click on add repo and choose Direct Attached Storage and if that doesn't work go to the Proxmox instance and create a another linux vm with a data disk of XFS and 1 CPI, 1-2 GB of RAM.   
+Click on Create VM and name it veeam-hardened-repo and use the previously downloaded Ubuntu Server and launch it and log in after waiting a while for it to get setup.  
+Then after logging in type lsblk:   
+![Disk](./images/disk.png)  
+Then go to Proxmox UI and go to the Hardware tab and click on add and select hard disk, then go back to the new VM and type echo 1 | sudo tee /sys/class/scsi_device/*/device/rescan then lsblk to see this:    
+![Disk1](./images/disk1.png)    
+The new disk showed up so its time to partition and format to XFS by running this command and checking with lsblk:  
+![Disk2](./images/disk2.png)    
+Then format sdb1 as XFS by running sudo mkfs.xfs /dev/sdb1 like so: 
+![Disk3](./images/disk3.png)    
+Then create a mount and mount by running sudo mkdir -p /mnt/veeam-repo and sudo mount /dev/sdb1 /mnt/veeam-repo and then run df -Th /mnt/veeam-repo:    
+![Disk4](./images/disk4.png)    
+To make it persistent type sudo blkid /dev/sdb1 to get the UUID, then run this command to add it to /etc/fstab: 
+echo "UUID=YOUR-UUID-HERE /mnt/veeam-repo xfs defaults 0 0" | sudo tee -a /etc/fstab    
+Then run sudo umount /mnt/veeam-repo, then sudo mount -a, then df -Th /mnt/veeam-repo:  
+![Disk5](./images/disk5.png)    
+Now with it mounted, make sure ssh is running by running sudo systemctl status ssh and then ip addr show | grep "inet " which will show its running and showing a healthy IP.   
