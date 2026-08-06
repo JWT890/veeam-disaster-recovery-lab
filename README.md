@@ -649,3 +649,6 @@ Enter in the credentials of the test VM such as username and password and see it
 ![M](./images/m.png)    
 Then click on next and get here:    
 ![Computer](./images/computer.png)  
+Leave as is and hit next and get to this screen:    
+![Default](./images/default.webp)   
+Then select from the dropdown and select the hardened repo then hit next till summary and see the new job in the backups
