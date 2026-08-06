@@ -641,4 +641,11 @@ Then click on browse and see the folder options like so:
 ![Folder1](./images/folder1.png)    
 Expand the /mnt folder and select the veeamrepo folder and then click through for it to apply and finish:   
 ![Repo](./images/repo.png)  
-Then in the Linux VM, test the immutability
+Then do a test backup by going to backup job like so:   
+![Backup1](./images/backup1.png)    
+Then hit continue and get here after clicking on add and clicking on computer:   
+![IU](./images/iu.png)  
+Enter in the credentials of the test VM such as username and password and see it pop up like so:    
+![M](./images/m.png)    
+Then click on next and get here:    
+![Computer](./images/computer.png)  
