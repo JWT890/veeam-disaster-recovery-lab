@@ -629,3 +629,16 @@ Then add veeamrepo to the sudo group by running: sudo usermod -aG sudo veeamrepo
 Then confirm group memberships by running groups veeamrepo: 
 ![Per](./images/per1.png)   
 Then go back to the VBR console in the Windows Server VM on the Linux computer. 
+Click on add repo, choose direct attached storage -> Linux, enter the hostname as 10.0.0.85 and enter the root credentials of the hardenedrepo server. Make sure on the hardened repo by allowed PermittedRootLogin and PasswordAuthentication to yes by running:   
+echo "PermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config   
+echo "PasswordAuthentication yes" | sudo tee -a /etc/ssh/sshd_config    
+sudo systemctl restart ssh  
+![Install2](./images/install2.png)  
+Then apply and continue and see that the immutable option is available: 
+*Make sure that restricted mode is disabled by running sudo /opt/veeam/transport/veeamtransport --is-restricted-mode-enabled*
+![Mnt](./images/mnt.png)    
+Then click on browse and see the folder options like so:    
+![Folder1](./images/folder1.png)    
+Expand the /mnt folder and select the veeamrepo folder and then click through for it to apply and finish:   
+![Repo](./images/repo.png)  
+Then in the Linux VM, test the immutability
