@@ -651,4 +651,14 @@ Then click on next and get here:
 ![Computer](./images/computer.png)  
 Leave as is and hit next and get to this screen:    
 ![Default](./images/default.webp)   
-Then select from the dropdown and select the hardened repo then hit next till summary and see the new job in the backups
+Then select from the dropdown and select the hardened repo then hit next till summary and see the new job in the backups:   
+![BJ](./images/bj.png)  
+Then right click on it and click on start and notice after a few minutes:   
+![S1](./images/s1.webp) 
+![S2](./images/s2.webp) 
+This shows that the job was successful and immutability is functional
+
+Next its time for RBAC
+
+
+# Automation
