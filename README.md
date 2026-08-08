@@ -659,6 +659,20 @@ Then right click on it and click on start and notice after a few minutes:
 This shows that the job was successful and immutability is functional
 
 Next its time for RBAC
-
+To establish role based access control, click in the hamburger icon/3 lines in the top left and select Users and Roles: 
+![Line](./images/line.png)  
+Then click on it and see a option to roles like so: 
+![Role](./images/role.png)  
+If you click down, you will see a list of other roles to choose from and add other users to it. For this since there is only one account, this is a good to know.   
 
 # Automation
+Automating certain tasks can be useful especially when it comes to disaster recovery.   
+Start by clicking on the new backup job and clicking on edit and going to the storage section and checking the Keep backups for period" option and have it set to 7 days to match with immutability.    
+Then check the keep certain full backups option and see it no longer greyed out and check the configure option: 
+![Keep](./images/keep.png)  
+Then see this and have the first option checked to match the 7 days mark:   
+![Keep1](./images/keep1.png)    
+Then confirm it.    
+Next lets move on to storage level corruption health check. Click on the advanced settings on storage and see this: 
+![Keep3](./images/keep3.png)    
+Check it and also check the defragment option for full backup file maintenance. Then move on to the schedule section 
