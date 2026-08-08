@@ -675,4 +675,9 @@ Then see this and have the first option checked to match the 7 days mark:
 Then confirm it.    
 Next lets move on to storage level corruption health check. Click on the advanced settings on storage and see this: 
 ![Keep3](./images/keep3.png)    
-Check it and also check the defragment option for full backup file maintenance. Then move on to the schedule section 
+Check it and also check the defragment option for full backup file maintenance. Then move on to the schedule section and check the first option:    
+![Keep2](./images/keep2.png)    
+The hit apply and finish. Then move on to email notifications
+Click the hamburger menu and click on options and go to email:  
+![Keep4](./images/keep4.png)    
+Keep the smtp server option, fill in the email to and from, and click on advanced. Change the port from 25 to 587 and put the email and apppassword
