@@ -680,4 +680,7 @@ Check it and also check the defragment option for full backup file maintenance. 
 The hit apply and finish. Then move on to email notifications
 Click the hamburger menu and click on options and go to email:  
 ![Keep4](./images/keep4.png)    
-Keep the smtp server option, fill in the email to and from, and click on advanced. Change the port from 25 to 587 and put the email and apppassword
+Keep the gmail server option, fill in the email to and from, and click on advanced. Change the port from 25 to 587 and put the email and apppassword like so:   
+![Keep5](./images/keep5.png)    
+Then hit the test message option which will send a message to the target:   
+![Email](./images/email.webp)   
