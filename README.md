@@ -721,3 +721,4 @@ This shows that the backup worked and has the immutability icon so that the disk
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
 # Diagram
+![Arch](./images/veeam_dr_lab_architecture.png)
