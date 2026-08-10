@@ -697,4 +697,27 @@ Then see this:
 The error shows that VBR thinks an agent is already at the test-labvm and a possible issue with storage. Checking in Inventory -> Physical and Cloud Infrastructure -> Manually Added supports this:    
 ![Fail1](./images/fail1.webp)   
 ![Fail2](./images/fail2.webp)   
-Deleting them will result in a error saying they can't be deleted since its being used in backup jobs
+Deleting them will result in a error saying they can't be deleted since its being used in backup jobs. Then create a new job called test-labvm-clean with the correct credentials:  
+![Fail3](./images/fail3.webp)   
+The glaring issue is the failed to connect on the hardened VM by saying timed out at port 6162. SSH into the hardened repo and run the ps aux | grep -i veeamtransport command: 
+![PS](./images/ps.webp) 
+And on the Test-LabVM one run nc -zv 10.0.0.85 6162:    
+![Tail](./images/tail.webp) 
+Both show that the network path works fine and transport service is working as well. Then reboot the hardened Linux one and run sudo /opt/veeam/transport/veeamtransport --is-restricted-mode-enabled to see the status of either 0 or 1 and ps aux | grep -i veeam:    
+![PS1](./images/ps1.webp)   
+This shows that it has a status of 0 and should be turned to 1 so run:  
+sudo /opt/veeam/transport/veeamtransport --enable-restricted-mode   
+sudo /opt/veeam/transport/veeamtransport --is-restricted-mode-enabled   
+Which will change it to 1, then go to VBR and hit start on the job and see it finally starting to run like the picture below:  
+![Run5](./images/run5.webp) 
+*Note I had it running when I took the picture* 
+Wait a while for it to run, then after a while it should be done:   
+![Success1](./images/success1.webp) 
+With the scan done, its time for the final verification by going to Home -> Backups -> Disk 
+![Backup5](./images/backup5.webp)   
+![Backup6](./images/backup6.webp)   
+This shows that the backup worked and has the immutability icon so that the disk/backup is safe and secure. 
+
+Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
+
+# Diagram
