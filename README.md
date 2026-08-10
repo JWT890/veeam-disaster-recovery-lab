@@ -684,3 +684,17 @@ Keep the gmail server option, fill in the email to and from, and click on advanc
 ![Keep5](./images/keep5.png)    
 Then hit the test message option which will send a message to the target:   
 ![Email](./images/email.webp)   
+At some point it appears that I messed around too much and broke Veeam in the test-labvm which has been causing errors that it can't be found in the VBR in the Windows VM so do that it will have to be reconstructed. 
+First step is to ssh into the Linux VM and sudo dpkg -l | grep -i veeam to see this:    
+![Broke](./images/broke.png)    
+The rc next to Veeam means that it got removed at some point along with veeamsnap.  
+First run sudo systemctl stop veeamdeployment 2>/dev/null and sudo pkill -9 -f veeam which will stop and kill the process.  
+Then run sudo apt purge -y veeam veeam-libs veeam-nosnap veeam-openssl3 veeam-release-deb veeamdeployment veeamsnap.    
+Then run sudo dpkg -l | grep -i veeam to confirm removal and then sudo rm -rf /opt/veeam /etc/veeam /var/log/veeam /var/log/VeeamBackup to remove leftovers, then either click reboot in Proxmox or type sudo reboot to reboot the VM.  
+After rebooting, ssh back in through WSL or whatever is being used. Then go to VBR and select the entry of 10.0.0.244 in the Test Job and re add it with same credentials and finish through the wizard.    
+Then see this:  
+![Fail](./images/fail.webp) 
+The error shows that VBR thinks an agent is already at the test-labvm and a possible issue with storage. Checking in Inventory -> Physical and Cloud Infrastructure -> Manually Added supports this:    
+![Fail1](./images/fail1.webp)   
+![Fail2](./images/fail2.webp)   
+Deleting them will result in a error saying they can't be deleted since its being used in backup jobs
