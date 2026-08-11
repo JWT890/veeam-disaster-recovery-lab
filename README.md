@@ -744,7 +744,15 @@ Then click on restore and overwrite and note the time, for example 2:10 pm and w
 In system took around 5 seconds, phone stopwatch took around 1 minute and 10 seconds for a file level RTO.  
 Now to do a Instant VM recovery is important for a business continutity scenario. Close the folder and click on test-labvm in test-labvm-clean once again, and click on the Export Disks option:    
 ![Export](./images/export.png)  
-Select the 8/9 one from the dropdown one and hit next and select the restore option and hit next till getting to the disks, hit next and come to the target part. During testing I have noticed a limitation(s) which can be read in the dr-lab-report.md
+Select the 8/9 one from the dropdown one and hit next and select the restore option and hit next till getting to the disks, hit next and come to the target part. During testing I have noticed a limitation(s) which can be read in the dr-lab-report.md   
+From reading the final recommendation, lets go about following it.  
+On the Linux VM in Proxmox, type sudo visudo to edit the file and scroll down to the bottom and add this:   
+jon ALL=(ALL) NOPASSWS: [ALL]   
+Then save it and close out and in VBR go to Backup Infrastructure and go to managed servers and go about the process of adding a server for 10.0.0.22 and should successfully register then go back to export disks again and get to target:    
+![Target](./images/target.png)  
+Then go until it will start exporting the disks then wait a few minutes:    
+![W3](./images/w3.png)  
+In this instance the RTO was 10 minutes and 30 seconds and transferred over to Proxmox. Go over to the Proxmox on the other computer and check by running ls -lh /rto-export/
 
 
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
