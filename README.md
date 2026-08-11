@@ -739,7 +739,12 @@ Then navigate to /home/jon/ and click on it and find the file that was created:
 ![Folder3](./images/folder3.png)    
 Then right click on the the file that was created like so:  
 ![Restore1](./images/restore1.png)  
-
+Then click on restore and overwrite and note the time, for example 2:10 pm and watch:   
+![Restore3](./images/restore3.png)  
+In system took around 5 seconds, phone stopwatch took around 1 minute and 10 seconds for a file level RTO.  
+Now to do a Instant VM recovery is important for a business continutity scenario. Close the folder and click on test-labvm in test-labvm-clean once again, and click on the Export Disks option:    
+![Export](./images/export.png)  
+Select the 8/9 one from the dropdown one and hit next and select the restore option and hit next till getting to the disks, hit next and come to the target part. During testing I have noticed a limitation(s) which can be read in the dr-lab-report.md
 
 
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
