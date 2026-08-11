@@ -718,6 +718,17 @@ With the scan done, its time for the final verification by going to Home -> Back
 ![Backup6](./images/backup6.webp)   
 This shows that the backup worked and has the immutability icon so that the disk/backup is safe and secure. 
 
+# RTO/RPO
+For disaster recovery and operations having a tested RTO and RPO is important since it helps with knowing the baseline for what can actually be lost with the RPO while RTO is the time taken to get back
+Start by ssh into the test-labvm and create a txt file that will used by running echo "RPO test file - created $(date)" > ~/rpo-test.txt and then cat ~/rpo-test.txt to see the result: 
+![RPO](./images/rpo.png)    
+Next we need to note the current time as 10:13 PM, then run a backup test in VBR on the right after checking.
+![RPO1](./images/rpo1.webp) 
+The time taken was around 12 minutes but the warnings are not as important. 
+Then create the loss file like so:  
+![RPO2](./images/rpo2.png)  
+Then next is the RTO phase
+
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
 # Diagram
