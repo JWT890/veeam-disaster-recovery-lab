@@ -727,7 +727,20 @@ Next we need to note the current time as 10:13 PM, then run a backup test in VBR
 The time taken was around 12 minutes but the warnings are not as important. 
 Then create the loss file like so:  
 ![RPO2](./images/rpo2.png)  
-Then next is the RTO phase
+Then next is the RTO phase, go to the VBR on the Windows Servre and go to Home -> Backups -> Disk like so:  
+![Disk6](./images/disk6.png)    
+Then right click on test-labvm and see these options:   
+![Disk7](./images/disk7.png)    
+Then click on the restore guest files and see this pop up:  
+![Restore](./images/restore.png)    
+Then click next and the reason tab will pop up and give a reason, hit next and then click browse which will open into main directory like so:    
+![Folder2](./images/folder2.png)   
+Then navigate to /home/jon/ and click on it and find the file that was created: 
+![Folder3](./images/folder3.png)    
+Then right click on the the file that was created like so:  
+![Restore1](./images/restore1.png)  
+
+
 
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
