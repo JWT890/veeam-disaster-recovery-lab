@@ -778,4 +778,4 @@ This shows the backup restore saved rpo-test.txt and didn't save rpo-loss-test.t
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
 # Diagram
-![Arch](./images/veeam_dr_lab_architecture.png)
+![Arch](./images/veeam_dr_lab_architecture_v4.png)  
