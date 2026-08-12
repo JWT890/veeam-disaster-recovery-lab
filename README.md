@@ -764,7 +764,16 @@ dd if=/rto-export/10.0.0.244_Disk_0-flat.vmdk of=/dev/pve/vm-200-disk-0 bs=4M st
 And should start going. dd is a command that helps with converting and copying files and is helpful with forensics when copying something.  
 After waiting a few minutes:    
 ![Done1](./images/done1.png)    
-Then do the same for disk 1 and if it doesn't work since only one of them is needed run qm set 200 --boot order=scsi0 and qm start 200
+Then do the same for disk 1 and if it doesn't work since only one of them is needed run qm set 200 --boot order=scsi0 and qm start 200 or just increase the space of the Proxmox host in VMWare by adding a second hard disk and running:   
+for host in /sys/class/scsi_host/host*; do echo "- - -" > $host/scan; done and lsblk and it will pop up. Then to combine it run pvcreate /dev/sdb, vgextend pve /dev/sdb and lvextend -l +100%FREE pve/data. Then run qm set 200 --scsi1 local-lvm:24 and dd if=/rto-export/10.0.0.244_Disk_1-flat.vmdk of=/dev/pve/vm-200-disk-1 bs=4M status=progress.    
+Also run for both:  
+![Boot](./images/boot.png)  
+After waiting for a few minutes, the login to the VM will pop up:   
+![Login1](./images/login1.png)  
+Then sign in and run the following commands to test:    
+ls ~/rpo-test.txt, cat ~/rpo-test.txt, and ls ~/rpo-loss-test.txt like so:  
+![Test1](./images/test1.png)    
+This shows the backup restore saved rpo-test.txt and didn't save rpo-loss-test.txt which shows it worked. The md file of dr-lab-report-timeline shows a good timelines for actual and lab time.
 
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
