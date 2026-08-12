@@ -753,7 +753,18 @@ Then save it and close out and in VBR go to Backup Infrastructure and go to mana
 Then go until it will start exporting the disks then wait a few minutes:    
 ![W3](./images/w3.png)  
 In this instance the RTO was 10 minutes and 30 seconds and transferred over to Proxmox. Go over to the Proxmox on the other computer and check by running ls -lh /rto-export/
-
+![Export1](./images/export1.png)    
+The flat.vmdk files represent the ones that will be used in Proxmox for import. Next run:   
+qm create 200 --name test-lab-recovered --memory 2048 --cores 2 --net 0 virtio,bridge=vmbr0 and see it pop up in Proxmox.   
+Then run qm importdisk 200 /rto-export/10.0.0.244_Disk_0.vmdk local-lvm but should pop with an error saying could not open because of unsupported file type:    
+![Type1](./images/type1.png)    
+It seems that through some testing that dd works so run:    
+qm set 100 --scsi0 local-lvm:50 
+dd if=/rto-export/10.0.0.244_Disk_0-flat.vmdk of=/dev/pve/vm-200-disk-0 bs=4M status=progress   
+And should start going. dd is a command that helps with converting and copying files and is helpful with forensics when copying something.  
+After waiting a few minutes:    
+![Done1](./images/done1.png)    
+Then do the same for disk 1 and if it doesn't work since only one of them is needed run qm set 200 --boot order=scsi0 and qm start 200
 
 Knowing how to utilize Veeam for Disaster Recovery, secure backups and transfers, and a good state of security helps with incident response, storing backups for business continutity, and ensuring operations are smooth and ongoing.  
 
